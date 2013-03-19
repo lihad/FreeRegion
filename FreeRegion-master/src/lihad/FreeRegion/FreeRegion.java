@@ -57,14 +57,12 @@ public class FreeRegion extends JavaPlugin implements Listener{
 		Block prospect = this.getServer().getWorld(world).getBlockAt(new Random().nextInt(limit*2)-limit, 64, new Random().nextInt(limit*2)-limit);
 		try{
 			for(int x = -25;x<25;x++){
-				System.out.println((x+25)+"%");
 				for(int y = 0;y<25;y++){
 					for(int z = -25;z<25;z++){
 						if(prospect.getRelative(x, y, z).getTypeId() == 18) leavecount++;
 					}
 				}
 			}
-
 			if(leavecount > 100){
 				while(prospect.getTypeId() != 0 && prospect.getRelative(0, 1, 0).getTypeId() != 0){
 					prospect = prospect.getRelative(0, 1, 0);
