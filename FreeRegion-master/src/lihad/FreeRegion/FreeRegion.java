@@ -34,16 +34,21 @@ public class FreeRegion extends JavaPlugin implements Listener{
 		world = config.getString("world");
 		timing = config.getLong("timing");
 		useTiming = config.getBoolean("useTiming");
-		
-		info("Finding new region....");
-		location = getFreeRegion();
-		info(".... New Region Found!!!");
-		
+
+
+
 		if(useTiming)this.getServer().getScheduler().runTaskTimerAsynchronously(this, new Runnable(){
 			public void run() {
-
+				info("Finding new region....");
+				location = getFreeRegion();
+				info(".... New Region Found!!!");			
 			}
 		}, 0, timing);
+		else{
+			info("Finding new region....");
+			location = getFreeRegion();
+			info(".... New Region Found!!!");
+		}
 		this.getServer().getPluginManager().registerEvents(this, this);
 	}
 
@@ -64,6 +69,7 @@ public class FreeRegion extends JavaPlugin implements Listener{
 				while(prospect.getTypeId() != 0 && prospect.getRelative(0, 1, 0).getTypeId() != 0){
 					prospect = prospect.getRelative(0, 1, 0);
 				}
+				
 				return prospect.getLocation();
 			}else{
 				return getFreeRegion();
