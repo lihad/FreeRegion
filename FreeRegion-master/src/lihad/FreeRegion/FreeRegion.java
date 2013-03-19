@@ -85,6 +85,18 @@ public class FreeRegion extends JavaPlugin implements Listener{
 			if(location == null)player.sendMessage("Try again later: Location not set");
 			else player.teleport(location);
 			return true;
+		}else if(cmd.getName().equalsIgnoreCase("fr") && sender.isOp()){
+			if(args.length == 1){
+				if(args[0].equalsIgnoreCase("new")){
+					sender.sendMessage(ChatColor.GREEN+"Setting random new FreeRegion");
+					location = getFreeRegion();
+				}else if(args[0].equalsIgnoreCase("set")){
+					sender.sendMessage(ChatColor.GREEN+"Setting new FreeRegion at current location");
+					location = ((Player)sender).getLocation();
+				}
+			}else{
+				sender.sendMessage("fr <argument>");
+			}
 		}
 		return false;
 	}

@@ -5,3 +5,6 @@ commands:
   freeregion:
     description: Invalid Command
     usage: Invalid Command
+  fr:
+    description: Invalid Command
+    usage: Invalid Command
