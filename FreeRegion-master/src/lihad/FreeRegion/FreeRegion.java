@@ -48,8 +48,9 @@ public class FreeRegion extends JavaPlugin implements Listener{
 		this.getServer().getScheduler().runTaskTimerAsynchronously(this, new Runnable(){
 			public void run() {
 				if(locations_iter.isEmpty()){
-					info("Region rotation empty.  Holding on last.");			
+					warning("Region rotation empty.  Holding on last.");			
 				}else{
+					locations_iter.add(location);
 					location = locations_iter.remove(0);
 					info("Changing freeregion");
 				}

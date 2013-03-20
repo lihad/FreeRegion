@@ -1,6 +1,6 @@
 name: FreeRegion
 main: lihad.FreeRegion.FreeRegion
-version: 1.5
+version: 1.7
 commands:
   freeregion:
     description: Invalid Command
