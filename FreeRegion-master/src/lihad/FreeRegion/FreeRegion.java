@@ -1,5 +1,7 @@
 package lihad.FreeRegion;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Random;
 import java.util.logging.Logger;
 
@@ -21,11 +23,14 @@ public class FreeRegion extends JavaPlugin implements Listener{
 	protected static String PLUGIN_NAME = "FreeRegion";
 	protected static String header = "[" + PLUGIN_NAME + "] ";
 	private static Logger log = Logger.getLogger("Minecraft");
+
 	public static int limit = 0;
 	public static Location location;
+	public static List<Location> locations_iter = new LinkedList<Location>();
 	public static String world;
 	public static Long timing;
-	public static boolean useTiming;
+	public static int locations_number = 0;
+	public static int protected_area = 0;
 
 	@Override
 	public void onEnable() {
@@ -33,22 +38,23 @@ public class FreeRegion extends JavaPlugin implements Listener{
 		limit = config.getInt("limit");
 		world = config.getString("world");
 		timing = config.getLong("timing");
-		useTiming = config.getBoolean("useTiming");
-
-
-
-		if(useTiming)this.getServer().getScheduler().runTaskTimerAsynchronously(this, new Runnable(){
+		locations_number = config.getInt("locationsnum");
+		protected_area = config.getInt("protected_area");
+		
+		while(locations_iter.size()<locations_number){
+			locations_iter.add(getFreeRegion());
+		}
+		
+		this.getServer().getScheduler().runTaskTimerAsynchronously(this, new Runnable(){
 			public void run() {
-				info("Finding new region....");
-				location = getFreeRegion();
-				info(".... New Region Found!!!");			
+				if(locations_iter.isEmpty()){
+					info("Region rotation empty.  Holding on last.");			
+				}else{
+					location = locations_iter.remove(0);
+					info("Changing freeregion");
+				}
 			}
 		}, 0, timing);
-		else{
-			info("Finding new region....");
-			location = getFreeRegion();
-			info(".... New Region Found!!!");
-		}
 		this.getServer().getPluginManager().registerEvents(this, this);
 	}
 
@@ -56,9 +62,9 @@ public class FreeRegion extends JavaPlugin implements Listener{
 		int leavecount = 0;
 		Block prospect = this.getServer().getWorld(world).getBlockAt(new Random().nextInt(limit*2)-limit, 64, new Random().nextInt(limit*2)-limit);
 		try{
-			for(int x = -25;x<25;x++){
+			for(int x = -50;x<50;x++){
 				for(int y = 0;y<25;y++){
-					for(int z = -25;z<25;z++){
+					for(int z = -50;z<50;z++){
 						if(prospect.getRelative(x, y, z).getTypeId() == 18) leavecount++;
 					}
 				}
@@ -102,7 +108,7 @@ public class FreeRegion extends JavaPlugin implements Listener{
 	@EventHandler
 	public void onPlayerDamage(EntityDamageEvent event){
 		if(event.getEntity() instanceof Player){
-			if(event.getEntity().getLocation().distance(location) <20){
+			if(event.getEntity().getLocation().distance(location) < protected_area){
 				event.setCancelled(true);
 			}
 		}
