@@ -79,7 +79,7 @@ public class FreeRegion extends JavaPlugin implements Listener{
 				return getFreeRegion();
 			}
 		}catch(Exception e){
-			severe("Issue occurred that ripped the timer apart.  Crash?  Spawn is now FR");
+			severe("Issue occurred that ripped the startup script apart.  Crash?  Spawn is now FR");
 			return this.getServer().getWorld(world).getSpawnLocation();
 		}
 	}
@@ -101,6 +101,7 @@ public class FreeRegion extends JavaPlugin implements Listener{
 			}else{
 				sender.sendMessage("fr <argument>");
 			}
+			return true;
 		}
 		return false;
 	}
