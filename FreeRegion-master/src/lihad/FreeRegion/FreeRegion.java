@@ -50,7 +50,7 @@ public class FreeRegion extends JavaPlugin implements Listener{
 				if(locations_iter.isEmpty()){
 					warning("Region rotation empty.  Holding on last.");			
 				}else{
-					locations_iter.add(location);
+					if(location != null)locations_iter.add(location);
 					location = locations_iter.remove(0);
 					info("Changing freeregion");
 				}
